@@ -4,10 +4,21 @@ import { Connection, getConnectionOptions } from 'typeorm';
 
 import { RevenueModule } from './revenue/revenue.module';
 import { CategoryModule } from './category/category.module';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot({ autoLoadEntities: true }),
+    ConfigModule.forRoot(),
+    TypeOrmModule.forRoot({
+      type: 'mysql',
+      host: process.env.DATABASE_HOST,
+      port: 3306,
+      username: process.env.DATABASE_USER,
+      password: process.env.DATABASE_PASSWORD,
+      database: process.env.DATABASE_BD,
+      synchronize: true,
+      autoLoadEntities: true,
+    }),
     RevenueModule,
     CategoryModule,
   ],

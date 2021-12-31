@@ -6,24 +6,37 @@ import {
   Patch,
   Param,
   Delete,
+  UseInterceptors,
+  ClassSerializerInterceptor,
+  HttpCode,
 } from '@nestjs/common';
 import { RevenueService } from './revenue.service';
-import { CreateRevenueDto } from './dto/create-revenue.dto';
-import { UpdateRevenueDto } from './dto/update-revenue.dto';
+
 import { Revenue } from './entities/revenue.entity';
 
 @Controller('revenue')
 export class RevenueController {
   constructor(private revenueService: RevenueService) {}
 
+  @UseInterceptors(ClassSerializerInterceptor)
   @Post()
-  create(@Body() revenue: Revenue) {
-    return this.revenueService.create(revenue);
+  @HttpCode(201)
+  async create(@Body() revenue: Revenue) {
+    const item = await this.revenueService.create(revenue);
+    return {
+      message: 'Receita cadastrada com sucesso',
+      data: item,
+    };
   }
 
+  @UseInterceptors(ClassSerializerInterceptor)
   @Get()
-  findAll() {
-    return this.revenueService.findAll();
+  @HttpCode(200)
+  async findAll() {
+    const revenues = await this.revenueService.findAll();
+    return {
+      data: revenues,
+    };
   }
 
   @Get(':id')

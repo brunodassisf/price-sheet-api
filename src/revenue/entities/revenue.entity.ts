@@ -16,6 +16,9 @@ export class Revenue {
   @Column()
   name: string;
 
+  @Column()
+  description: string;
+
   @ManyToOne(() => Category, (category) => category.revenue, {
     cascade: true,
     eager: true,

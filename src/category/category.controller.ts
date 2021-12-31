@@ -6,6 +6,9 @@ import {
   Patch,
   Param,
   Delete,
+  UseInterceptors,
+  ClassSerializerInterceptor,
+  HttpCode,
 } from '@nestjs/common';
 import { CategoryService } from './category.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
@@ -21,9 +24,14 @@ export class CategoryController {
     return this.categoryService.create(category);
   }
 
+  @UseInterceptors(ClassSerializerInterceptor)
   @Get()
-  findAll() {
-    return this.categoryService.findAll();
+  @HttpCode(200)
+  async findAll() {
+    const categories = await this.categoryService.findAll();
+    return {
+      data: categories,
+    };
   }
 
   @Get(':id')
