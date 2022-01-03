@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { DeleteResult, Repository } from 'typeorm';
 
 import { CreateRevenueDto } from './dto/create-revenue.dto';
 import { UpdateRevenueDto } from './dto/update-revenue.dto';
@@ -23,7 +23,7 @@ export class RevenueService {
     return this.revenueRepositiry.find({ relations: ['category'] });
   }
 
-  findOne(id: number): Promise<Revenue> {
+  findOne(id: string): Promise<Revenue> {
     return this.revenueRepositiry.findOne(id);
   }
 
@@ -32,8 +32,7 @@ export class RevenueService {
     return 'Receita atualizada';
   }
 
-  async remove(id: number): Promise<string> {
-    this.revenueRepositiry.delete(id);
-    return 'Receita deletada';
+  async remove(id: string): Promise<DeleteResult> {
+    return this.revenueRepositiry.delete(id);
   }
 }

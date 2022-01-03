@@ -5,6 +5,8 @@ import { Connection, getConnectionOptions } from 'typeorm';
 import { RevenueModule } from './revenue/revenue.module';
 import { CategoryModule } from './category/category.module';
 import { ConfigModule } from '@nestjs/config';
+import { StageModule } from './stage/stage.module';
+import { IngredientModule } from './ingredient/ingredient.module';
 
 @Module({
   imports: [
@@ -21,6 +23,8 @@ import { ConfigModule } from '@nestjs/config';
     }),
     RevenueModule,
     CategoryModule,
+    StageModule,
+    IngredientModule,
   ],
 })
 export class AppModule {

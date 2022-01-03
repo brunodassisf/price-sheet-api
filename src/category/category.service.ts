@@ -20,7 +20,7 @@ export class CategoryService {
     return this.categorysRepository.find();
   }
 
-  findOne(id: number): Promise<Category> {
+  findOne(id: string): Promise<Category> {
     return this.categorysRepository.findOne(id);
   }
 

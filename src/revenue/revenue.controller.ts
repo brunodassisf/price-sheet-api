@@ -41,7 +41,7 @@ export class RevenueController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.revenueService.findOne(+id);
+    return this.revenueService.findOne(id);
   }
 
   @Patch(':id')
@@ -49,8 +49,14 @@ export class RevenueController {
     return this.revenueService.update(+id, revenue);
   }
 
+  @UseInterceptors(ClassSerializerInterceptor)
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.revenueService.remove(+id);
+  @HttpCode(200)
+  async remove(@Param('id') id: string) {
+    const revenues = await this.revenueService.remove(id);
+    return {
+      data: revenues,
+      message: 'Receita excluída com sucesso',
+    };
   }
 }
