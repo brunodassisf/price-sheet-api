@@ -1,26 +1,35 @@
 import { Injectable } from '@nestjs/common';
-import { CreateStageDto } from './dto/create-stage.dto';
-import { UpdateStageDto } from './dto/update-stage.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { DeleteResult, Repository } from 'typeorm';
+
+import { Stage } from './entities/stage.entity';
 
 @Injectable()
 export class StageService {
-  create(createStageDto: CreateStageDto) {
-    return 'This action adds a new stage';
+  constructor(
+    @InjectRepository(Stage)
+    private stageRepositiry: Repository<Stage>,
+  ) {}
+
+  async create(stage: Stage) {
+    const create = this.stageRepositiry.save(stage);
+    return create;
   }
 
-  findAll() {
-    return `This action returns all stage`;
+  findAll(): Promise<Stage[]> {
+    return this.stageRepositiry.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} stage`;
+  findOne(id: string) {
+    return this.stageRepositiry.findOne(id);
   }
 
-  update(id: number, updateStageDto: UpdateStageDto) {
-    return `This action updates a #${id} stage`;
+  async update(id: number, stage: Stage) {
+    const uptade = this.stageRepositiry.update(id, stage);
+    return 'Etapa atualizada';
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} stage`;
+  async remove(id: string): Promise<DeleteResult> {
+    return this.stageRepositiry.delete(id);
   }
 }

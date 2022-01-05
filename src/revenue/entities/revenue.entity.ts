@@ -2,8 +2,6 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  JoinTable,
-  ManyToMany,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
@@ -28,6 +26,9 @@ export class Revenue {
     eager: true,
   })
   category: Revenue;
+
+  @OneToMany(() => Stage, (stage) => stage.revenue)
+  stages: Stage[];
 
   @CreateDateColumn()
   dateCreated: Date;

@@ -1,15 +1,26 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  UseInterceptors,
+  ClassSerializerInterceptor,
+  HttpCode,
+} from '@nestjs/common';
 import { StageService } from './stage.service';
-import { CreateStageDto } from './dto/create-stage.dto';
-import { UpdateStageDto } from './dto/update-stage.dto';
+
+import { Stage } from './entities/stage.entity';
 
 @Controller('stage')
 export class StageController {
   constructor(private readonly stageService: StageService) {}
 
   @Post()
-  create(@Body() createStageDto: CreateStageDto) {
-    return this.stageService.create(createStageDto);
+  create(@Body() stage: Stage) {
+    return this.stageService.create(stage);
   }
 
   @Get()
@@ -19,16 +30,21 @@ export class StageController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.stageService.findOne(+id);
+    return this.stageService.findOne(id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateStageDto: UpdateStageDto) {
-    return this.stageService.update(+id, updateStageDto);
+  update(@Param('id') id: string, @Body() stage: Stage) {
+    return this.stageService.update(+id, stage);
   }
-
+  @UseInterceptors(ClassSerializerInterceptor)
   @Delete(':id')
+  @HttpCode(200)
   remove(@Param('id') id: string) {
-    return this.stageService.remove(+id);
+    const result = this.stageService.remove(id);
+    return {
+      data: result,
+      message: 'Etapa excluída com sucesso',
+    };
   }
 }

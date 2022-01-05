@@ -2,9 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DeleteResult, Repository } from 'typeorm';
 
-import { CreateRevenueDto } from './dto/create-revenue.dto';
-import { UpdateRevenueDto } from './dto/update-revenue.dto';
-
 import { Revenue } from './entities/revenue.entity';
 
 @Injectable()
@@ -20,7 +17,7 @@ export class RevenueService {
   }
 
   findAll(): Promise<Revenue[]> {
-    return this.revenueRepositiry.find({ relations: ['category'] });
+    return this.revenueRepositiry.find({ relations: ['category', 'stage'] });
   }
 
   findOne(id: string): Promise<Revenue> {

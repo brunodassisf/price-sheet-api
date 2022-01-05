@@ -1,11 +1,9 @@
-import { Ingredient } from 'src/ingredient/entities/ingredient.entity';
 import { Revenue } from 'src/revenue/entities/revenue.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
   ManyToOne,
-  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
@@ -22,6 +20,9 @@ export class Stage {
 
   @Column()
   totalPrice: number;
+
+  @ManyToOne(() => Revenue, (revenue) => revenue.stages)
+  revenue: Revenue;
 
   @CreateDateColumn()
   dateCreated: Date;
