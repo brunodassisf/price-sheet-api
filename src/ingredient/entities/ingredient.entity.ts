@@ -3,12 +3,10 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  JoinTable,
-  ManyToMany,
-  ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
+@Entity()
 export class Ingredient {
   @PrimaryGeneratedColumn('uuid')
   id: number;
@@ -27,10 +25,6 @@ export class Ingredient {
 
   @Column()
   ingredientCost: number;
-
-  @ManyToMany(() => Stage)
-  @JoinTable()
-  stage: Stage;
 
   @CreateDateColumn()
   dateCreated: Date;

@@ -1,14 +1,15 @@
 import { Ingredient } from 'src/ingredient/entities/ingredient.entity';
+import { Revenue } from 'src/revenue/entities/revenue.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
-  JoinTable,
-  ManyToMany,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
+@Entity()
 export class Stage {
   @PrimaryGeneratedColumn('uuid')
   id: number;
@@ -24,8 +25,4 @@ export class Stage {
 
   @CreateDateColumn()
   dateCreated: Date;
-
-  @ManyToMany(() => Ingredient)
-  @JoinTable()
-  ingredients: Ingredient[];
 }

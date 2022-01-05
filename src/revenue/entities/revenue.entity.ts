@@ -2,11 +2,15 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinTable,
+  ManyToMany,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
 import { Category } from 'src/category/entities/category.entity';
+import { Stage } from 'src/stage/entities/stage.entity';
 
 @Entity()
 export class Revenue {
