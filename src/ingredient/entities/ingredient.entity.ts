@@ -3,6 +3,8 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinTable,
+  ManyToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
@@ -25,6 +27,9 @@ export class Ingredient {
 
   @Column()
   ingredientCost: number;
+
+  @ManyToMany(() => Stage, (stage) => stage.ingredients)
+  stages: Stage[];
 
   @CreateDateColumn()
   dateCreated: Date;

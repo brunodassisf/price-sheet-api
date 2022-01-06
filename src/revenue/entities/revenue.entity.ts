@@ -27,7 +27,10 @@ export class Revenue {
   })
   category: Revenue;
 
-  @OneToMany(() => Stage, (stage) => stage.revenue)
+  @OneToMany(() => Stage, (stage) => stage.revenue, {
+    cascade: true,
+    eager: true,
+  })
   stages: Stage[];
 
   @CreateDateColumn()

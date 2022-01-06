@@ -17,7 +17,7 @@ export class RevenueService {
   }
 
   findAll(): Promise<Revenue[]> {
-    return this.revenueRepositiry.find({ relations: ['category', 'stage'] });
+    return this.revenueRepositiry.find({ relations: ['category', 'stages'] });
   }
 
   findOne(id: string): Promise<Revenue> {
