@@ -39,9 +39,14 @@ export class RevenueController {
     };
   }
 
+  @UseInterceptors(ClassSerializerInterceptor)
+  @HttpCode(200)
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.revenueService.findOne(id);
+  async findOne(@Param('id') id: string) {
+    const revenue = await this.revenueService.findOne(id);
+    return {
+      data: revenue,
+    };
   }
 
   @Patch(':id')
