@@ -9,28 +9,26 @@ import { Category } from './entities/category.entity';
 export class CategoryService {
   constructor(
     @InjectRepository(Category)
-    private categorysRepository: Repository<Category>,
+    private categoryRepository: Repository<Category>,
   ) {}
 
-  async create(category: Category): Promise<Category> {
-    return this.categorysRepository.save(category);
+  create(createCategoryDto: CreateCategoryDto) {
+    return this.categoryRepository.save(createCategoryDto);
   }
 
-  findAll(): Promise<Category[]> {
-    return this.categorysRepository.find();
+  findAll() {
+    return this.categoryRepository.find();
   }
 
-  findOne(id: string): Promise<Category> {
-    return this.categorysRepository.findOne(id);
+  findOne(id: string) {
+    return this.categoryRepository.findOne(id);
   }
 
-  async update(id: number, category: Category): Promise<string> {
-    this.categorysRepository.update(+id, category);
-    return 'Category atualizada';
+  update(id: string, updateCategoryDto: UpdateCategoryDto) {
+    return this.categoryRepository.update(id, updateCategoryDto);
   }
 
-  async remove(id: number): Promise<string> {
-    this.categorysRepository.delete(id);
-    return 'Categoria deletada';
+  remove(id: string) {
+    return this.categoryRepository.delete(id);
   }
 }

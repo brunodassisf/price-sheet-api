@@ -3,8 +3,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  JoinTable,
-  ManyToMany,
+  ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
@@ -17,10 +16,10 @@ export class Ingredient {
   name: string;
 
   @Column()
-  price: number;
+  qtdPurchase: number;
 
   @Column()
-  qtdPurchased: number;
+  pricePurchase: number;
 
   @Column()
   qtdRevenue: number;
@@ -28,9 +27,9 @@ export class Ingredient {
   @Column()
   ingredientCost: number;
 
-  @ManyToMany(() => Stage, (stage) => stage.ingredients)
-  stages: Stage[];
-
   @CreateDateColumn()
   dateCreated: Date;
+
+  @ManyToOne(() => Stage, (stage) => stage.ingredients)
+  stage: Stage;
 }

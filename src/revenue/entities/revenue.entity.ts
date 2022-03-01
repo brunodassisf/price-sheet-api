@@ -21,18 +21,16 @@ export class Revenue {
   @Column()
   description: string;
 
+  @CreateDateColumn()
+  dateCreated: Date;
+
   @ManyToOne(() => Category, (category) => category.revenue, {
-    cascade: true,
     eager: true,
   })
-  category: Revenue;
+  category: Category;
 
   @OneToMany(() => Stage, (stage) => stage.revenue, {
-    cascade: true,
     eager: true,
   })
   stages: Stage[];
-
-  @CreateDateColumn()
-  dateCreated: Date;
 }

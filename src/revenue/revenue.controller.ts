@@ -13,6 +13,7 @@ import {
 import { RevenueService } from './revenue.service';
 
 import { Revenue } from './entities/revenue.entity';
+import { CreateRevenueDto } from './dto/create-revenue.dto';
 
 @Controller('revenue')
 export class RevenueController {
@@ -21,7 +22,7 @@ export class RevenueController {
   @UseInterceptors(ClassSerializerInterceptor)
   @Post()
   @HttpCode(201)
-  async create(@Body() revenue: Revenue) {
+  async create(@Body() revenue: CreateRevenueDto) {
     const item = await this.revenueService.create(revenue);
     return {
       message: 'Receita cadastrada com sucesso',

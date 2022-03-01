@@ -1,1 +1,7 @@
-export class CreateStageDto {}
+export class CreateStageDto {
+  readonly name: string;
+  readonly description: string;
+  readonly totalWeight: number;
+  readonly totalPrice: number;
+  readonly revenueId: string;
+}

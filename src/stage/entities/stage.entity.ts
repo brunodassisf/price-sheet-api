@@ -4,9 +4,8 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  JoinTable,
-  ManyToMany,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
@@ -19,20 +18,20 @@ export class Stage {
   name: string;
 
   @Column()
+  description: string;
+
+  @Column()
   totalWeight: number;
 
   @Column()
   totalPrice: number;
 
-  @ManyToOne(() => Revenue, (revenue) => revenue.stages)
-  revenue: Revenue;
-
-  @ManyToMany(() => Ingredient, (ingredient) => ingredient.stages, {
-    cascade: true,
-  })
-  @JoinTable()
-  ingredients: Ingredient[];
-
   @CreateDateColumn()
   dateCreated: Date;
+
+  @ManyToOne(() => Revenue, (stage) => stage.stages)
+  revenue: Revenue;
+
+  @OneToMany(() => Ingredient, (ingredient) => ingredient.stage)
+  ingredients: Ingredient[];
 }
