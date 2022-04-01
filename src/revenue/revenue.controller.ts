@@ -14,6 +14,7 @@ import { RevenueService } from './revenue.service';
 
 import { Revenue } from './entities/revenue.entity';
 import { CreateRevenueDto } from './dto/create-revenue.dto';
+import { UpdateRevenueDto } from './dto/update-revenue.dto';
 
 @Controller('revenue')
 export class RevenueController {
@@ -51,8 +52,8 @@ export class RevenueController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() revenue: Revenue) {
-    return this.revenueService.update(+id, revenue);
+  async update(@Param('id') id: string, @Body() revenue: UpdateRevenueDto) {
+    return this.revenueService.update(id, revenue);
   }
 
   @UseInterceptors(ClassSerializerInterceptor)

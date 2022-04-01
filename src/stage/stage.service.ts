@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Ingredient } from 'src/ingredient/entities/ingredient.entity';
 import { Revenue } from 'src/revenue/entities/revenue.entity';
 import { DeleteResult, Repository } from 'typeorm';
 import { CreateStageDto } from './dto/create-stage.dto';
@@ -15,9 +14,6 @@ export class StageService {
 
     @InjectRepository(Revenue)
     private readonly revenueRepository: Repository<Revenue>,
-
-    @InjectRepository(Ingredient)
-    private readonly ingredientRepository: Repository<Ingredient>,
   ) {}
   async create(createStageDto: CreateStageDto): Promise<Stage> {
     const revenue = await this.preloadRevenue(createStageDto.revenueId);
@@ -36,13 +32,12 @@ export class StageService {
   }
 
   async update(id: string, updateStageDto: UpdateStageDto) {
-    console.log(updateStageDto);
-    const ingredients =
-      updateStageDto.ingredients &&
-      (await Promise.all(
-        updateStageDto.ingredients.map((item) => this.preloadIngredients(item)),
-      ));
-    console.log(ingredients);
+    // const ingredients =
+    //   updateStageDto.ingredients &&
+    //   (await Promise.all(
+    //     updateStageDto.ingredients.map((item) => this.preloadIngredients(item)),
+    //   ));
+
     const item = await this.stageRepository.update(id, updateStageDto);
     return item;
   }
@@ -54,9 +49,5 @@ export class StageService {
 
   private preloadRevenue = (id: string): Promise<Revenue> => {
     return this.revenueRepository.findOne(id);
-  };
-
-  private preloadIngredients = (item: IIngredient): Promise<Ingredient> => {
-    return this.ingredientRepository.save(item);
   };
 }

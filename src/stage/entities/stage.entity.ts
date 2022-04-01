@@ -1,11 +1,9 @@
-import { Ingredient } from 'src/ingredient/entities/ingredient.entity';
 import { Revenue } from 'src/revenue/entities/revenue.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
   ManyToOne,
-  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
@@ -31,7 +29,4 @@ export class Stage {
 
   @ManyToOne(() => Revenue, (stage) => stage.stages)
   revenue: Revenue;
-
-  @OneToMany(() => Ingredient, (ingredient) => ingredient.stage)
-  ingredients: Ingredient[];
 }

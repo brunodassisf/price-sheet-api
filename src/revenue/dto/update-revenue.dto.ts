@@ -1,8 +1,7 @@
 import { PartialType } from '@nestjs/mapped-types';
-import { CreateRevenueDto, ICategory } from './create-revenue.dto';
+import { Stage } from 'src/stage/entities/stage.entity';
+import { CreateRevenueDto } from './create-revenue.dto';
 
 export class UpdateRevenueDto extends PartialType(CreateRevenueDto) {
-  readonly name?: string;
-  readonly description?: string;
-  readonly category?: ICategory;
+  stage: Stage[];
 }

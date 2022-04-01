@@ -1,8 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Category } from 'src/category/entities/category.entity';
-import { DeleteResult, Repository } from 'typeorm';
+import { Stage } from 'src/stage/entities/stage.entity';
+import { DeleteResult, Repository, UpdateResult } from 'typeorm';
 import { CreateRevenueDto } from './dto/create-revenue.dto';
+import { UpdateRevenueDto } from './dto/update-revenue.dto';
 
 import { Revenue } from './entities/revenue.entity';
 
@@ -14,6 +16,9 @@ export class RevenueService {
 
     @InjectRepository(Category)
     private readonly categoryRepository: Repository<Category>,
+
+    @InjectRepository(Stage)
+    private readonly stageRepository: Repository<Stage>,
   ) {}
 
   async create(revenue: CreateRevenueDto): Promise<Revenue> {
@@ -27,16 +32,23 @@ export class RevenueService {
   }
 
   findAll(): Promise<Revenue[]> {
-    return this.revenueRepository.find({ relations: ['category'] });
+    return this.revenueRepository.find({ relations: ['category', 'stages'] });
   }
 
   findOne(id: string): Promise<Revenue> {
     return this.revenueRepository.findOne(id, { relations: ['category'] });
   }
 
-  async update(id: number, revenue: Revenue): Promise<string> {
-    const uptade = this.revenueRepository.update(id, revenue);
-    return 'Receita atualizada';
+  async update(id: string, revenue: UpdateRevenueDto): Promise<UpdateResult> {
+    let stages = [];
+    if (revenue.stage.length > 0) {
+      stages = await Promise.all(
+        revenue.stage.map((item) => this.preloadStage(item)),
+      );
+    }
+
+    const update = this.revenueRepository.update(id, { ...revenue, stages });
+    return update;
   }
 
   async remove(id: string): Promise<DeleteResult> {
@@ -53,5 +65,9 @@ export class RevenueService {
     }
     const newCategory = await this.categoryRepository.save({ name });
     return newCategory;
+  }
+
+  private async preloadStage(stage: Stage): Promise<Stage> {
+    return this.stageRepository.save(stage);
   }
 }

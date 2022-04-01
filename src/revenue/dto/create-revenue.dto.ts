@@ -1,7 +1,7 @@
 export class CreateRevenueDto {
-  name: string;
-  description: string;
-  category: ICategory;
+  readonly name: string;
+  readonly description: string;
+  readonly category: ICategory;
 }
 
 export interface ICategory {

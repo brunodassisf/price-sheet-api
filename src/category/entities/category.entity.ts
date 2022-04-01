@@ -1,5 +1,5 @@
 import { Revenue } from 'src/revenue/entities/revenue.entity';
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class Category {
@@ -9,6 +9,6 @@ export class Category {
   @Column({ unique: true })
   name: string;
 
-  @OneToMany(() => Revenue, (revenue) => revenue.category)
+  @ManyToOne(() => Revenue, (revenue) => revenue.category)
   revenue: Revenue[];
 }

@@ -5,9 +5,10 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { Revenue } from './entities/revenue.entity';
 import { Category } from 'src/category/entities/category.entity';
+import { Stage } from 'src/stage/entities/stage.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Revenue, Category])],
+  imports: [TypeOrmModule.forFeature([Revenue, Category, Stage])],
   controllers: [RevenueController],
   providers: [RevenueService],
 })
