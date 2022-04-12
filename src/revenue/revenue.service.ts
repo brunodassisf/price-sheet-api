@@ -39,13 +39,15 @@ export class RevenueService {
     return this.revenueRepository.findOne(id, { relations: ['category'] });
   }
 
-  async update(id: string, revenue: UpdateRevenueDto): Promise<UpdateResult> {
+  async update(id: string, revenue: UpdateRevenueDto): Promise<any> {
     let stages = [];
-    if (revenue.stage.length > 0) {
+    if (revenue.stages.length > 0) {
       stages = await Promise.all(
-        revenue.stage.map((item) => this.preloadStage(item)),
+        revenue.stages.map((item) => this.preloadStage(item)),
       );
     }
+
+    console.log(stages);
 
     const update = this.revenueRepository.update(id, { ...revenue, stages });
     return update;
