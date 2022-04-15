@@ -5,9 +5,10 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { Stage } from './entities/stage.entity';
 import { Revenue } from 'src/revenue/entities/revenue.entity';
+import { Ingredient } from 'src/ingredient/entities/ingredient.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Stage, Revenue])],
+  imports: [TypeOrmModule.forFeature([Stage, Revenue, Ingredient])],
   controllers: [StageController],
   providers: [StageService],
 })

@@ -1,4 +1,15 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  HttpCode,
+  UseInterceptors,
+  ClassSerializerInterceptor,
+} from '@nestjs/common';
 import { IngredientService } from './ingredient.service';
 import { CreateIngredientDto } from './dto/create-ingredient.dto';
 import { UpdateIngredientDto } from './dto/update-ingredient.dto';
@@ -7,9 +18,15 @@ import { UpdateIngredientDto } from './dto/update-ingredient.dto';
 export class IngredientController {
   constructor(private readonly ingredientService: IngredientService) {}
 
+  @UseInterceptors(ClassSerializerInterceptor)
   @Post()
-  create(@Body() createIngredientDto: CreateIngredientDto) {
-    return this.ingredientService.create(createIngredientDto);
+  @HttpCode(201)
+  async create(@Body() createIngredientDto: CreateIngredientDto) {
+    const item = await this.ingredientService.create(createIngredientDto);
+    return {
+      message: 'Ingrediente cadastrado com sucesso',
+      data: item,
+    };
   }
 
   @Get()
@@ -23,8 +40,11 @@ export class IngredientController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateIngredientDto: UpdateIngredientDto) {
-    return this.ingredientService.update(+id, updateIngredientDto);
+  update(
+    @Param('id') id: string,
+    @Body() updateIngredientDto: UpdateIngredientDto,
+  ) {
+    return this.ingredientService.update(id, updateIngredientDto);
   }
 
   @Delete(':id')

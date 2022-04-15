@@ -19,14 +19,20 @@ export class Ingredient {
   description: string;
 
   @Column()
-  totalWeight: number;
+  qtdTotal: number;
 
   @Column()
-  totalPrice: number;
+  priceTotal: number;
+
+  @Column()
+  amountUsed: number;
+
+  @Column()
+  cost: number;
 
   @CreateDateColumn()
   dateCreated: Date;
 
-  @ManyToOne(() => Stage, (stage) => stage.ingredients)
+  @ManyToOne(() => Stage, (stage) => stage.ingredient)
   stage: Stage;
 }

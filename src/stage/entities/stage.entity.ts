@@ -1,3 +1,4 @@
+import { Ingredient } from 'src/ingredient/entities/ingredient.entity';
 import { Revenue } from 'src/revenue/entities/revenue.entity';
 import {
   Column,
@@ -31,4 +32,7 @@ export class Stage {
 
   @ManyToOne(() => Revenue, (stage) => stage.stages)
   revenue: Revenue;
+
+  @OneToMany(() => Ingredient, (ingredient) => ingredient.stage)
+  ingredient: Ingredient[];
 }

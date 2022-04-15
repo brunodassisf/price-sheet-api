@@ -1,11 +1,31 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Stage } from 'src/stage/entities/stage.entity';
+import { Repository } from 'typeorm';
 import { CreateIngredientDto } from './dto/create-ingredient.dto';
 import { UpdateIngredientDto } from './dto/update-ingredient.dto';
+import { Ingredient } from './entities/ingredient.entity';
 
 @Injectable()
 export class IngredientService {
-  create(createIngredientDto: CreateIngredientDto) {
-    return 'This action adds a new ingredient';
+  constructor(
+    @InjectRepository(Ingredient)
+    private readonly ingredientRepository: Repository<Ingredient>,
+
+    @InjectRepository(Stage)
+    private readonly stageRepository: Repository<Stage>,
+  ) {}
+
+  async create(createIngredientDto: CreateIngredientDto): Promise<Ingredient> {
+    const stage = await this.preLoadingStage(createIngredientDto.stageId);
+    await this.updateStage(createIngredientDto, stage);
+    delete createIngredientDto.stageId;
+    const create = this.ingredientRepository.save({
+      ...createIngredientDto,
+      stage,
+    });
+
+    return create;
   }
 
   findAll() {
@@ -16,11 +36,20 @@ export class IngredientService {
     return `This action returns a #${id} ingredient`;
   }
 
-  update(id: number, updateIngredientDto: UpdateIngredientDto) {
+  update(id: string, updateIngredientDto: UpdateIngredientDto) {
     return `This action updates a #${id} ingredient`;
   }
 
   remove(id: number) {
     return `This action removes a #${id} ingredient`;
   }
+
+  private preLoadingStage = (id: string): Promise<Stage> => {
+    const findStage = this.stageRepository.findOne(id);
+    return findStage;
+  };
+
+  private updateStage = (i: CreateIngredientDto, s: Stage) => {
+    console.log(s);
+  };
 }

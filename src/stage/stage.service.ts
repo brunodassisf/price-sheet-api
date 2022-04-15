@@ -15,14 +15,17 @@ export class StageService {
     @InjectRepository(Revenue)
     private readonly revenueRepository: Repository<Revenue>,
   ) {}
+
   async create(createStageDto: CreateStageDto): Promise<Stage> {
     const revenue = await this.preloadRevenue(createStageDto.revenueId);
+
+    delete createStageDto.revenueId;
     const create = this.stageRepository.save({ ...createStageDto, revenue });
     return create;
   }
 
   async findAll() {
-    const item = await this.stageRepository.find();
+    const item = await this.stageRepository.find({ relations: ['ingredient'] });
     return item;
   }
 
@@ -47,7 +50,8 @@ export class StageService {
     return item;
   }
 
-  private preloadRevenue = (id: string): Promise<Revenue> => {
-    return this.revenueRepository.findOne(id);
+  private preloadRevenue = async (id: string): Promise<Revenue> => {
+    const findRevenue = await this.revenueRepository.findOne(id);
+    return findRevenue;
   };
 }

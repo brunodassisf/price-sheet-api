@@ -3,5 +3,5 @@ export class CreateStageDto {
   readonly description: string;
   readonly totalWeight: number;
   readonly totalPrice: number;
-  readonly revenueId: string;
+  revenueId?: string;
 }

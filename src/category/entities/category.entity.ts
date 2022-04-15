@@ -10,5 +10,5 @@ export class Category {
   name: string;
 
   @ManyToOne(() => Revenue, (revenue) => revenue.category)
-  revenue: Revenue[];
+  revenue: Revenue;
 }
