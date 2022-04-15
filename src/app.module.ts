@@ -6,6 +6,7 @@ import { RevenueModule } from './revenue/revenue.module';
 import { ConfigModule } from '@nestjs/config';
 import { CategoryModule } from './category/category.module';
 import { StageModule } from './stage/stage.module';
+import { IngredientModule } from './ingredient/ingredient.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { StageModule } from './stage/stage.module';
     RevenueModule,
     CategoryModule,
     StageModule,
+    IngredientModule,
   ],
 })
 export class AppModule {

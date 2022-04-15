@@ -36,18 +36,13 @@ export class RevenueService {
   }
 
   findOne(id: string): Promise<Revenue> {
-    return this.revenueRepository.findOne(id, { relations: ['category'] });
+    return this.revenueRepository.findOne(id, {
+      relations: ['category', 'stages'],
+    });
   }
 
-  async update(id: string, revenue: UpdateRevenueDto): Promise<UpdateResult> {
-    let stages = [];
-    if (revenue.stage.length > 0) {
-      stages = await Promise.all(
-        revenue.stage.map((item) => this.preloadStage(item)),
-      );
-    }
-
-    const update = this.revenueRepository.update(id, { ...revenue, stages });
+  async update(id: string, revenue: UpdateRevenueDto): Promise<any> {
+    const update = this.revenueRepository.update(id, revenue);
     return update;
   }
 
@@ -67,7 +62,7 @@ export class RevenueService {
     return newCategory;
   }
 
-  private async preloadStage(stage: Stage): Promise<Stage> {
-    return this.stageRepository.save(stage);
+  private async preloadStage(stage: Stage, revenue: Revenue): Promise<any> {
+    return this.stageRepository.save({ ...stage, revenue });
   }
 }
