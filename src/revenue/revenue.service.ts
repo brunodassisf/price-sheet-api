@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Category } from 'src/category/entities/category.entity';
 import { Stage } from 'src/stage/entities/stage.entity';
-import { DeleteResult, Repository, UpdateResult } from 'typeorm';
+import { DeleteResult, Repository } from 'typeorm';
 import { CreateRevenueDto } from './dto/create-revenue.dto';
 import { UpdateRevenueDto } from './dto/update-revenue.dto';
 

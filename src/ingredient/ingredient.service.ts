@@ -18,7 +18,7 @@ export class IngredientService {
 
   async create(createIngredientDto: CreateIngredientDto): Promise<Ingredient> {
     const stage = await this.preLoadingStage(createIngredientDto.stageId);
-    await this.updateStage(createIngredientDto, stage);
+    this.updateStage(createIngredientDto, stage);
     delete createIngredientDto.stageId;
     const create = this.ingredientRepository.save({
       ...createIngredientDto,
@@ -49,7 +49,12 @@ export class IngredientService {
     return findStage;
   };
 
-  private updateStage = (i: CreateIngredientDto, s: Stage) => {
-    console.log(s);
+  private updateStage = async (i: CreateIngredientDto, s: Stage) => {
+    const mutationStage = {
+      ...s,
+      totalWeight: s.totalWeight + i.amountUsed,
+      totalPrice: s.totalPrice + i.cost,
+    };
+    await this.stageRepository.update(mutationStage.id, mutationStage);
   };
 }
